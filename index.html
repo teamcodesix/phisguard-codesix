@@ -28,9 +28,13 @@
         </div>
         <div class="examples">
           <span>Try:</span>
-          <button data-sample="https://www.google.com">Safe example</button>
-          <button data-sample="http://paypal-login-security.example.com">Suspicious example</button>
+          <button data-sample="https://example.com">Safe</button>
+          <button data-sample="http://example.com">No HTTPS</button>
+          <button data-sample="https://192.0.2.1/login">IP + login</button>
+          <button data-sample="http://account-verify.example.com/login">Phishing wording</button>
+          <button data-sample="https://xn--pple-43d.example.com">Punycode</button>
         </div>
+        <p class="test-note">All five are safe test addresses. They use example.com or the documentation-only IP range and are not intended to be malicious.</p>
       </div>
 
       <div id="result" class="result-card hidden" aria-live="polite">
