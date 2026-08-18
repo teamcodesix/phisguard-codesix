@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhishGuard | CodeSix</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#050505;
+    color:#fff;
+}
+
+/* NAVBAR */
+nav{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    border-bottom:1px solid #222;
+    position:sticky;
+    top:0;
+    background:rgba(5,5,5,.95);
+    z-index:1000;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#00ff88;
+}
+
+nav ul{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+nav a{
+    color:#aaa;
+    text-decoration:none;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#00ff88;
+}
+
+/* HERO */
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 20px;
+    background:
+    radial-gradient(circle at center,#10251b 0%,#050505 45%);
+}
+
+.hero-content{
+    max-width:900px;
+}
+
+.badge{
+    display:inline-block;
+    border:1px solid #00ff88;
+    color:#00ff88;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:13px;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:clamp(50px,8vw,90px);
+    margin-bottom:15px;
+}
+
+.hero h1 span{
+    color:#00ff88;
+}
+
+.hero p{
+    color:#aaa;
+    font-size:19px;
+    line-height:1.7;
+    margin-bottom:35px;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 30px;
+    border-radius:8px;
+    background:#00ff88;
+    color:#000;
+    font-weight:bold;
+    text-decoration:none;
+    cursor:pointer;
+    border:none;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px rgba(0,255,136,.3);
+}
+
+/* SECTIONS */
+section{
+    padding:90px 7%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#888;
+}
+
+/* DASHBOARD */
+.dashboard{
+    max-width:1100px;
+    margin:auto;
+}
+
+.scan-box{
+    background:#0b0b0b;
+    border:1px solid #222;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 40px rgba(0,255,136,.05);
+}
+
+.input-area{
+    display:flex;
+    gap:12px;
+}
+
+.input-area input{
+    flex:1;
+    padding:16px;
+    background:#050505;
+    border:1px solid #333;
+    border-radius:8px;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.input-area input:focus{
+    border-color:#00ff88;
+}
+
+.result{
+    display:none;
+    margin-top:25px;
+    padding:25px;
+    border-radius:10px;
+    border:1px solid #333;
+}
+
+.result h3{
+    margin-bottom:10px;
+}
+
+.result.safe{
+    border-color:#00ff88;
+}
+
+.result.warning{
+    border-color:#ffaa00;
+}
+
+.result.danger{
+    border-color:#ff4444;
+}
+
+.result-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.reasons{
+    margin-top:20px;
+    padding-left:20px;
+    color:#bbb;
+    line-height:2;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-top:25px;
+}
+
+.stat{
+    background:#0b0b0b;
+    border:1px solid #222;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.stat h3{
+    font-size:35px;
+    color:#00ff88;
+}
+
+.stat p{
+    color:#888;
+    margin-top:5px;
+}
+
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.card{
+    background:#0b0b0b;
+    border:1px solid #222;
+    padding:30px;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#00ff88;
+}
+
+.card .icon{
+    font-size:35px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    margin-bottom:12px;
+}
+
+.card p{
+    color:#888;
+    line-height:1.6;
+}
+
+/* PROCESS */
+.process{
+    max-width:900px;
+    margin:auto;
+}
+
+.step{
+    display:flex;
+    gap:25px;
+    margin-bottom:25px;
+    background:#0b0b0b;
+    padding:25px;
+    border:1px solid #222;
+    border-radius:12px;
+}
+
+.number{
+    min-width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#00ff88;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.step p{
+    color:#888;
+    margin-top:7px;
+    line-height:1.5;
+}
+
+/* TEAM */
+.team{
+    text-align:center;
+}
+
+.team-name{
+    font-size:55px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.team-name span{
+    color:#00ff88;
+}
+
+.team p{
+    color:#888;
+    font-size:18px;
+}
+
+/* FOOTER */
+footer{
+    border-top:1px solid #222;
+    text-align:center;
+    padding:30px;
+    color:#666;
+}
+
+footer span{
+    color:#00ff88;
+}
+
+/* LOADER */
+.loader{
+    display:none;
+    margin-top:20px;
+    color:#00ff88;
+}
+
+.spinner{
+    width:25px;
+    height:25px;
+    border:3px solid #222;
+    border-top:3px solid #00ff88;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:10px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+
+    nav ul{
+        display:none;
+    }
+
+    .features,
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .input-area{
+        flex-direction:column;
+    }
+
+    .hero h1{
+        font-size:55px;
+    }
+
+    section{
+        padding:70px 5%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">PHISH<span>GUARD</span></div>
+
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#scanner">Scanner</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#team">Team</a></li>
+    </ul>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            CYBERSECURITY • PHISHING DETECTION
+        </div>
+
+        <h1>
+            Stay Safe.<br>
+            Stay <span>Guarded.</span>
+        </h1>
+
+        <p>
+            PhishGuard is a smart phishing detection system
+            designed to identify suspicious URLs and protect
+            users from online threats.
+        </p>
+
+        <a href="#scanner" class="btn">
+            Scan a URL →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- SCANNER -->
+<section id="scanner">
+
+    <div class="section-title">
+        <h2>URL Security Scanner</h2>
+        <p>Enter a website URL and check its security status.</p>
+    </div>
+
+    <div class="dashboard">
+
+        <div class="scan-box">
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="urlInput"
+                    placeholder="Example: https://example.com"
+                >
+
+                <button class="btn" onclick="scanURL()">
+                    SCAN URL
+                </button>
+
+            </div>
+
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                Analyzing URL...
+            </div>
+
+            <div class="result" id="result">
+
+                <div class="result-icon" id="resultIcon"></div>
+
+                <h3 id="resultTitle"></h3>
+
+                <p id="resultMessage"></p>
+
+                <ul class="reasons" id="reasons"></ul>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats">
+
+            <div class="stat">
+                <h3 id="scanned">0</h3>
+                <p>URLs Scanned</p>
+            </div>
+
+            <div class="stat">
+                <h3 id="threats">0</h3>
+                <p>Threats Detected</p>
+            </div>
+
+            <div class="stat">
+                <h3>24/7</h3>
+                <p>Protection</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+<section id="features">
+
+    <div class="section-title">
+        <h2>Why PhishGuard?</h2>
+        <p>Multiple indicators help identify suspicious websites.</p>
+    </div>
+
+    <div class="features">
+
+        <div class="card">
+
+            <div class="icon">🔗</div>
+
+            <h3>URL Analysis</h3>
+
+            <p>
+                Examines URL structure and identifies
+                suspicious patterns commonly found in
+                phishing websites.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">⚠️</div>
+
+            <h3>Threat Detection</h3>
+
+            <p>
+                Detects warning signs such as suspicious
+                keywords, unusual domains and misleading
+                URL structures.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">🛡️</div>
+
+            <h3>User Protection</h3>
+
+            <p>
+                Provides an easy-to-understand security
+                result so users can make safer decisions
+                before visiting a website.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section>
+
+    <div class="section-title">
+
+        <h2>How It Works</h2>
+
+        <p>
+            A simple three-step phishing detection process.
+        </p>
+
+    </div>
+
+
+    <div class="process">
+
+        <div class="step">
+
+            <div class="number">1</div>
+
+            <div>
+                <h3>Enter URL</h3>
+
+                <p>
+                    The user enters the website address
+                    they want to check.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">2</div>
+
+            <div>
+                <h3>Analyze</h3>
+
+                <p>
+                    PhishGuard checks the URL for common
+                    phishing indicators and suspicious patterns.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">3</div>
+
+            <div>
+                <h3>Security Result</h3>
+
+                <p>
+                    The system displays whether the URL
+                    appears safe, suspicious or potentially
+                    dangerous.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TEAM -->
+<section id="team">
+
+    <div class="team">
+
+        <div class="section-title">
+
+            <h2>Hackathon Project</h2>
+
+        </div>
+
+        <div class="team-name">
+            CODE<span>SIX</span>
+        </div>
+
+        <p>
+            Six minds • One mission • Safer Internet
+        </p>
+
+        <br>
+
+        <a href="#scanner" class="btn">
+            Try PhishGuard
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © 2026 <span>PhishGuard</span> — Built by Team CodeSix
+    </p>
+
+</footer>
+
+
+<script>
+
+let scannedCount = 0;
+let threatCount = 0;
+
+
+/* URL SCANNER */
+
+function scanURL(){
+
+    const input = document.getElementById("urlInput");
+    const url = input.value.trim();
+
+    const result = document.getElementById("result");
+    const loader = document.getElementById("loader");
+
+    if(url === ""){
+
+        alert("Please enter a URL first.");
+
+        return;
+    }
+
+
+    /* Show loader */
+
+    result.style.display = "none";
+    loader.style.display = "block";
+
+
+    setTimeout(function(){
+
+        loader.style.display = "none";
+
+        scannedCount++;
+
+        document.getElementById("scanned").innerText =
+            scannedCount;
+
+
+        analyzeURL(url);
+
+    },1200);
+
+}
+
+
+/* ANALYSIS */
+
+function analyzeURL(url){
+
+    const result = document.getElementById("result");
+
+    const icon = document.getElementById("resultIcon");
+
+    const title = document.getElementById("resultTitle");
+
+    const message = document.getElementById("resultMessage");
+
+    const reasons = document.getElementById("reasons");
+
+
+    result.className = "result";
+
+    reasons.innerHTML = "";
+
+
+    let suspicious = false;
+
+    let danger = false;
+
+    let reasonList = [];
+
+
+    const lowerURL = url.toLowerCase();
+
+
+    /* Suspicious keywords */
+
+    const keywords = [
+
+        "login",
+
+        "verify",
+
+        "verification",
+
+        "secure",
+
+        "account",
+
+        "update",
+
+        "bank",
+
+        "password",
+
+        "free",
+
+        "gift",
+
+        "winner",
+
+        "claim"
+
+    ];
+
+
+    keywords.forEach(function(word){
+
+        if(lowerURL.includes(word)){
+
+            suspicious = true;
+
+            reasonList.push(
+                "Contains suspicious keyword: " + word
+            );
+
+        }
+
+    });
+
+
+    /* IP address instead of domain */
+
+    const ipPattern =
+        /https?:\/\/(\d{1,3}\.){3}\d{1,3}/;
+
+    if(ipPattern.test(url)){
+
+        danger = true;
+
+        reasonList.push(
+            "URL uses an IP address instead of a normal domain."
+        );
+
+    }
+
+
+    /* Too many hyphens */
+
+    const hyphens = (url.match(/-/g) || []).length;
+
+    if(hyphens >= 3){
+
+        suspicious = true;
+
+        reasonList.push(
+            "Unusually high number of hyphens detected."
+        );
+
+    }
+
+
+    /* @ symbol */
+
+    if(url.includes("@")){
+
+        danger = true;
+
+        reasonList.push(
+            "URL contains an '@' symbol, which can hide the actual destination."
+        );
+
+    }
+
+
+    /* HTTP */
+
+    if(url.startsWith("http://")){
+
+        suspicious = true;
+
+        reasonList.push(
+            "Website does not use HTTPS encryption."
+        );
+
+    }
+
+
+    /* Very long URL */
+
+    if(url.length > 100){
+
+        suspicious = true;
+
+        reasonList.push(
+            "URL is unusually long."
+        );
+
+    }
+
+
+    /* Dangerous words */
+
+    const dangerousWords = [
+
+        "phishing",
+
+        "malware",
+
+        "hack",
+
+        "steal",
+
+        "credential"
+
+    ];
+
+
+    dangerousWords.forEach(function(word){
+
+        if(lowerURL.includes(word)){
+
+            danger = true;
+
+            reasonList.push(
+                "Contains high-risk keyword: " + word
+            );
+
+        }
+
+    });
+
+
+    /* RESULT */
+
+    if(danger){
+
+        result.classList.add("danger");
+
+        icon.innerHTML = "🚨";
+
+        title.innerText =
+            "POTENTIALLY DANGEROUS";
+
+        message.innerText =
+            "PhishGuard detected multiple high-risk indicators.";
+
+        threatCount++;
+
+    }
+
+    else if(suspicious){
+
+        result.classList.add("warning");
+
+        icon.innerHTML = "⚠️";
+
+        title.innerText =
+            "SUSPICIOUS URL";
+
+        message.innerText =
+            "The URL contains indicators commonly associated with phishing.";
+
+        threatCount++;
+
+    }
+
+    else{
+
+        result.classList.add("safe");
+
+        icon.innerHTML = "🛡️";
+
+        title.innerText =
+            "URL APPEARS SAFE";
+
+        message.innerText =
+            "No obvious phishing indicators were detected.";
+
+        reasonList.push(
+            "No major suspicious URL patterns detected."
+        );
+
+    }
+
+
+    document.getElementById("threats").innerText =
+        threatCount;
+
+
+    reasonList.forEach(function(reason){
+
+        const li = document.createElement("li");
+
+        li.innerText = reason;
+
+        reasons.appendChild(li);
+
+    });
+
+
+    result.style.display = "block";
+
+}
+
+
+/* ENTER KEY */
+
+document.getElementById("urlInput").addEventListener(
+    "keypress",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            scanURL();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
