@@ -7,6 +7,27 @@ const scoreBadge = document.getElementById('scoreBadge');
 const meterFill = document.getElementById('meterFill');
 const signals = document.getElementById('signals');
 
+// Lightweight animated particles — no external library required.
+function createParticles(count = 22) {
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement('span');
+    particle.className = 'particle';
+    particle.style.left = `${Math.random() * 100}vw`;
+    particle.style.setProperty('--duration', `${10 + Math.random() * 16}s`);
+    particle.style.setProperty('--delay', `${-Math.random() * 18}s`);
+    particle.style.setProperty('--drift', `${-80 + Math.random() * 160}px`);
+    particle.style.opacity = `${0.08 + Math.random() * 0.22}`;
+    const size = 1 + Math.random() * 3;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    fragment.appendChild(particle);
+  }
+  document.body.appendChild(fragment);
+}
+
+createParticles();
+
 function analyzeUrl(raw) {
   let value = raw.trim();
   if (!value) return { score: 0, title: 'Enter a URL', summary: 'Paste a URL above to start the analysis.', items: [] };
@@ -44,14 +65,31 @@ function analyzeUrl(raw) {
 }
 
 function scan() {
-  const data = analyzeUrl(input.value);
-  result.classList.remove('hidden');
-  resultTitle.textContent = data.title;
-  resultSummary.textContent = data.summary;
-  scoreBadge.textContent = data.score + '/100';
-  meterFill.style.width = data.score + '%';
-  signals.innerHTML = data.items.length ? data.items.map(([a,b]) => `<div class="signal"><strong>${a}</strong>${b}</div>`).join('') : '<div class="signal"><strong>Ready</strong>No URL signals to report yet.</div>';
-  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const originalText = scanBtn.innerHTML;
+  scanBtn.classList.add('scanning');
+  scanBtn.disabled = true;
+  scanBtn.innerHTML = 'Scanning <span>◌</span>';
+
+  window.setTimeout(() => {
+    const data = analyzeUrl(input.value);
+    result.classList.remove('hidden');
+    result.classList.remove('result-ready');
+    void result.offsetWidth;
+    result.classList.add('result-ready');
+    resultTitle.textContent = data.title;
+    resultSummary.textContent = data.summary;
+    scoreBadge.textContent = data.score + '/100';
+    meterFill.style.width = '0%';
+    window.requestAnimationFrame(() => { meterFill.style.width = data.score + '%'; });
+    signals.innerHTML = data.items.length
+      ? data.items.map(([a,b]) => `<div class="signal"><strong>${a}</strong>${b}</div>`).join('')
+      : '<div class="signal"><strong>Ready</strong>No URL signals to report yet.</div>';
+
+    scanBtn.classList.remove('scanning');
+    scanBtn.disabled = false;
+    scanBtn.innerHTML = originalText;
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 650);
 }
 
 scanBtn.addEventListener('click', scan);
