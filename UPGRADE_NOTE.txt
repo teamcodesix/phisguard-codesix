@@ -1,0 +1,1 @@
+PhishGuard visual upgrade prepared by CodeSix: animated cyber background, polished glass UI, scan motion, and refined responsive interactions.
